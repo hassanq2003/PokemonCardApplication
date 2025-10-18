@@ -1,20 +1,18 @@
 name: Documentation Deployment
 
-# Trigger workflow on every push or if any file changes in docs/
 on:
   push:
     branches:
       - main
     paths:
       - "docs/**"
-      - "docs-site/**"  # Add this to trigger on docs-site changes too
+      - "docs-site/**"
   workflow_dispatch:
 
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
     
-    # Add permissions for GitHub Pages
     permissions:
       contents: read
       pages: write
@@ -34,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd docs-site
-          npm ci --legacy-peer-deps  # Use ci for cleaner installs
+          npm ci
 
       - name: Build documentation
         run: |

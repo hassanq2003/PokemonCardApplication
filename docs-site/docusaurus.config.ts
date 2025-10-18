@@ -27,23 +27,22 @@ const config: Config = {
   },
 
   presets: [
-    [
-      'classic',
-      {
-        docs: {
-          path: '../docs',
-          routeBasePath: '/',
-          sidebarPath: './sidebars.ts',
-          // Update with your actual repo
-          editUrl: 'https://github.com/yourusername/pokemon-card-application/tree/main/',
-        },
-        blog: false,
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
-    ],
+  [
+    'classic',
+    {
+      docs: {
+        path: '../docs',
+        routeBasePath: '/',
+        sidebarPath: './sidebars.ts', // ✅ use relative path directly
+        editUrl: 'https://github.com/yourusername/pokemon-card-application/tree/main/',
+      },
+      blog: false,
+      theme: {
+        customCss: './src/css/custom.css', // ✅ also fix this one
+      },
+    } satisfies Preset.Options,
   ],
+],
 
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
