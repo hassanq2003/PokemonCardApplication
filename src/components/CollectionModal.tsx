@@ -85,7 +85,7 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
         setQuantity(1);
       }, 1500);
     } catch (_error) {
-      setMessage('Failed to add card');
+      setMessage('Failed to add card'+_error);
     } finally {
       setLoading(false);
     }
