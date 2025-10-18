@@ -17,7 +17,7 @@ const config: Config = {
 
   // GitHub pages deployment config
   organizationName: 'hassanq2003', // Replace with your GitHub username
-  projectName: 'pokemon-card-application', // Replace with your repo name
+  projectName: 'PokemonCardApplication', // Replace with your repo name
 
   onBrokenLinks: 'warn',
 
