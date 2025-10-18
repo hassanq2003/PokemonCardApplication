@@ -1,5 +1,5 @@
 // Shim import.meta.env for Jest
-(globalThis as any).import = {
+(globalThis as Record<string, unknown>).import = {
   meta: {
     env: {
       VITE_SUPABASE_URL: "https://mock.supabase.url",
