@@ -2,14 +2,17 @@ name: Deploy App
 on:
   push:
     branches: [ "main" ]
-    
 
 jobs:
   deploy-app:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Add this line
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Add this line
 
       - name: Use Node.js 20
         uses: actions/setup-node@v4
