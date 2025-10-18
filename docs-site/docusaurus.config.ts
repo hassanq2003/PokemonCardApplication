@@ -34,7 +34,7 @@ const config: Config = {
         path: '../docs',
         routeBasePath: '/',
         sidebarPath: './sidebars.ts', // ✅ use relative path directly
-        editUrl: 'https://github.com/yourusername/pokemon-card-application/tree/main/',
+        editUrl: 'https://github.com/hassanq2003/PokemonCardApplication/tree/main/',
       },
       blog: false,
       theme: {
@@ -63,7 +63,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/yourusername/pokemon-card-application',
+          href: 'https://github.com/hassan/PokemonCardApplication',
           label: 'GitHub',
           position: 'right',
         },
@@ -86,7 +86,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/yourusername/pokemon-card-application',
+              href: 'https://github.com/hassanq2003/PokemonCardApplication',
             },
           ],
         },
