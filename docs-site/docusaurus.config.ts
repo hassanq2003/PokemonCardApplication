@@ -13,7 +13,7 @@ const config: Config = {
 
   // Update with your actual GitHub info
   url: 'https://hassanq2003.github.io',
-  baseUrl: '/pokemon-card-application/',
+  baseUrl: '/PokemonCardApplication/',
 
   // GitHub pages deployment config
   organizationName: 'hassanq2003', // Replace with your GitHub username
