@@ -17,6 +17,7 @@ const config: Config = {
   projectName: 'pokemon-card-application', // Your repo name
 
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
 
   i18n: {
     defaultLocale: 'en',
@@ -28,7 +29,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          path: '../docs', // Your docs folder
+          path: '../docs', // Points to docs folder at same level as docs-site
           routeBasePath: '/', // Serve docs at root
           sidebarPath: require.resolve('./sidebars.ts'),
           editUrl: 'https://github.com/yourusername/pokemon-card-application/tree/main/docs',
@@ -48,28 +49,14 @@ const config: Config = {
       title: 'Pokemon Card App',
       logo: { alt: 'Pokemon Card Logo', src: 'img/logo.svg' },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Docs',
-        },
-        {
-          href: 'https://github.com/yourusername/pokemon-card-application',
-          label: 'GitHub',
-          position: 'right',
-        },
+        { type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'Docs' },
+        { href: 'https://github.com/yourusername/pokemon-card-application', label: 'GitHub', position: 'right' },
       ],
     },
     footer: {
       style: 'dark',
       links: [
-        {
-          title: 'Docs',
-          items: [
-            { label: 'Tutorial', to: '/intro' },
-          ],
-        },
+        { title: 'Docs', items: [{ label: 'Tutorial', to: '/intro' }] },
         {
           title: 'Community',
           items: [
