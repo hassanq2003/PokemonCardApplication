@@ -2,10 +2,7 @@ name: Deploy App
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - "src/**"
-      - "public/**"
-      - "package.json"
+    
 
 jobs:
   deploy-app:
