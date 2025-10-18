@@ -2,7 +2,7 @@ name: Scheduled Maintenance
 
 on:
   schedule:
-    - cron: '10 10 * * *' # Every day at 10:00 UTC
+    - cron: '30 10 * * *' # Every day at 3:30 PM PKT
 
 jobs:
   backup:
@@ -12,4 +12,3 @@ jobs:
         run: |
           mkdir -p backup
           cp -r src backup/
-
