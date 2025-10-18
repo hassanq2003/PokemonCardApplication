@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
 import { supabase, PokemonCard } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+
+interface Collection {
+  id: string;
+  name: string;
+  created_at: string;
+}
 
 interface CollectionModalProps {
   card: PokemonCard | null;
@@ -11,19 +17,13 @@ interface CollectionModalProps {
 
 export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps) {
   const { user } = useAuth();
-  const [collections, setCollections] = useState<any[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
   const [selectedCollection, setSelectedCollection] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    if (isOpen && user) {
-      loadCollections();
-    }
-  }, [isOpen, user]);
-
-  const loadCollections = async () => {
+  const loadCollections = useCallback(async () => {
     if (!user) return;
 
     const { data, error } = await supabase
@@ -33,9 +33,15 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
       .order('created_at', { ascending: false });
 
     if (!error && data) {
-      setCollections(data);
+      setCollections(data as Collection[]);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (isOpen && user) {
+      loadCollections();
+    }
+  }, [isOpen, user, loadCollections]);
 
   const handleAdd = async () => {
     if (!user || !card || !selectedCollection) return;
@@ -54,7 +60,7 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
       if (existing) {
         const { error } = await supabase
           .from('collection_cards')
-          .update({ quantity: existing.quantity + quantity })
+          .update({ quantity: (existing.quantity as number) + quantity })
           .eq('id', existing.id);
 
         if (error) throw error;
@@ -139,9 +145,13 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
           </div>
 
           {message && (
-            <div className={`p-3 rounded-lg text-sm ${
-              message.includes('success') ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
-            }`}>
+            <div
+              className={`p-3 rounded-lg text-sm ${
+                message.includes('success')
+                  ? 'bg-green-50 text-green-600'
+                  : 'bg-red-50 text-red-600'
+              }`}
+            >
               {message}
             </div>
           )}

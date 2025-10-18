@@ -11,13 +11,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -31,7 +31,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       onClose();
       setEmail('');
       setPassword('');
-    } catch (err) {
+    } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
@@ -81,9 +81,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
-              {error}
-            </div>
+            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>
           )}
 
           <button
@@ -103,7 +101,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             }}
             className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
           >
-            {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+            {isLogin
+              ? "Don't have an account? Sign up"
+              : 'Already have an account? Sign in'}
           </button>
         </div>
       </div>

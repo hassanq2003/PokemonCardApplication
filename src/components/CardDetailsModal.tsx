@@ -1,8 +1,8 @@
 import { X } from 'lucide-react';
-import { PokemonCard } from '../lib/supabase';
+import { PokemonCard as PokemonCardType } from '../lib/supabase';
 
 interface CardDetailsModalProps {
-  card: PokemonCard | null;
+  card: PokemonCardType | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -10,7 +10,7 @@ interface CardDetailsModalProps {
 export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProps) {
   if (!isOpen || !card) return null;
 
-  const typeColors: { [key: string]: string } = {
+  const typeColors: Record<string, string> = {
     Grass: 'bg-green-500',
     Fire: 'bg-red-500',
     Water: 'bg-blue-500',
@@ -27,6 +27,7 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-8">
+        {/* Header */}
         <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gray-200 px-6 py-4 flex justify-between items-center z-10">
           <h2 className="text-2xl font-bold text-gray-800">{card.name}</h2>
           <button
@@ -37,8 +38,10 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
           </button>
         </div>
 
+        {/* Body */}
         <div className="p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
           <div className="grid md:grid-cols-2 gap-8">
+            {/* Card Image */}
             <div className="flex justify-center">
               <img
                 src={card.images.large}
@@ -47,18 +50,18 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
               />
             </div>
 
+            {/* Card Details */}
             <div className="space-y-6">
+              {/* Basic Information */}
               <div>
                 <h3 className="text-lg font-bold text-gray-800 mb-3">Basic Information</h3>
                 <div className="space-y-2 text-sm">
-                  {card.hp && (
-                    <p><span className="font-semibold">HP:</span> {card.hp}</p>
-                  )}
+                  {card.hp && <p><span className="font-semibold">HP:</span> {card.hp}</p>}
                   <p><span className="font-semibold">Supertype:</span> {card.supertype}</p>
-                  {card.subtypes && (
+                  {card.subtypes && card.subtypes.length > 0 && (
                     <p><span className="font-semibold">Subtypes:</span> {card.subtypes.join(', ')}</p>
                   )}
-                  {card.types && (
+                  {card.types && card.types.length > 0 && (
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold">Types:</span>
                       {card.types.map((type) => (
@@ -71,12 +74,11 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                       ))}
                     </div>
                   )}
-                  {card.evolvesFrom && (
-                    <p><span className="font-semibold">Evolves From:</span> {card.evolvesFrom}</p>
-                  )}
+                  {card.evolvesFrom && <p><span className="font-semibold">Evolves From:</span> {card.evolvesFrom}</p>}
                 </div>
               </div>
 
+              {/* Abilities */}
               {card.abilities && card.abilities.length > 0 && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-800 mb-3">Abilities</h3>
@@ -90,6 +92,7 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                 </div>
               )}
 
+              {/* Attacks */}
               {card.attacks && card.attacks.length > 0 && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-800 mb-3">Attacks</h3>
@@ -99,7 +102,7 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                         <p className="font-semibold text-red-800">{attack.name}</p>
                         <p className="font-bold text-red-600">{attack.damage}</p>
                       </div>
-                      <div className="flex gap-1 mb-2">
+                      <div className="flex gap-1 mb-2 flex-wrap">
                         {attack.cost.map((cost, i) => (
                           <span
                             key={i}
@@ -109,14 +112,13 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                           </span>
                         ))}
                       </div>
-                      {attack.text && (
-                        <p className="text-sm text-gray-700">{attack.text}</p>
-                      )}
+                      {attack.text && <p className="text-sm text-gray-700">{attack.text}</p>}
                     </div>
                   ))}
                 </div>
               )}
 
+              {/* Stats */}
               {(card.weaknesses || card.resistances || card.retreatCost) && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-800 mb-3">Stats</h3>
@@ -148,6 +150,7 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                 </div>
               )}
 
+              {/* Set Info */}
               <div>
                 <h3 className="text-lg font-bold text-gray-800 mb-3">Set Information</h3>
                 <div className="space-y-2 text-sm">
@@ -155,21 +158,19 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                   <p><span className="font-semibold">Series:</span> {card.set.series}</p>
                   <p><span className="font-semibold">Number:</span> {card.number}/{card.set.printedTotal}</p>
                   <p><span className="font-semibold">Release Date:</span> {card.set.releaseDate}</p>
-                  {card.rarity && (
-                    <p><span className="font-semibold">Rarity:</span> {card.rarity}</p>
-                  )}
-                  {card.artist && (
-                    <p><span className="font-semibold">Artist:</span> {card.artist}</p>
-                  )}
+                  {card.rarity && <p><span className="font-semibold">Rarity:</span> {card.rarity}</p>}
+                  {card.artist && <p><span className="font-semibold">Artist:</span> {card.artist}</p>}
                 </div>
               </div>
 
+              {/* Flavor Text */}
               {card.flavorText && (
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm italic text-gray-700">{card.flavorText}</p>
                 </div>
               )}
 
+              {/* Market Prices */}
               {card.tcgplayer?.prices && (
                 <div>
                   <h3 className="text-lg font-bold text-gray-800 mb-3">Market Prices</h3>
@@ -188,6 +189,7 @@ export function CardDetailsModal({ card, isOpen, onClose }: CardDetailsModalProp
                   </div>
                 </div>
               )}
+
             </div>
           </div>
         </div>
