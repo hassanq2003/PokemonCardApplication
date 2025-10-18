@@ -1,0 +1,14 @@
+name: Scheduled Maintenance
+
+on:
+  schedule:
+    - cron: '50 14 * * *' # 14:50 UTC every day
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run backup script
+        run: |
+          echo "Running daily maintenance task..."
+          npm run backup
