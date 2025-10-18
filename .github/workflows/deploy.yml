@@ -27,6 +27,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-        github_token: ${{ secrets.PERSONAL_TOKEN }} # Use PAT instead of default GITHUB_TOKEN
-        publish_dir: ./dist
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          publish_dir: ./dist
 
