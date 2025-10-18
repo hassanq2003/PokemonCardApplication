@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build:docs": "docusaurus build",        
+    "build:docs": "docusaurus build",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -19,6 +19,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
     "@eslint/js": "^9.9.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
