@@ -2,7 +2,7 @@ name: Scheduled Maintenance
 
 on:
   schedule:
-    - cron: '0 10 * * *' # Every day at 10:00 UTC
+    - cron: '10 10 * * *' # Every day at 10:00 UTC
 
 jobs:
   backup:
