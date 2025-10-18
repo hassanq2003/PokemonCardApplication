@@ -1,41 +1,39 @@
 name: Documentation Deployment
 
-# Trigger workflow on push to main or changes inside docs folder
 on:
   push:
     branches:
       - main
     paths:
-      - "docs/**"      # Only run if documentation files change
-  workflow_dispatch:   # Allows manual triggering
+      - "docs/**"
+  workflow_dispatch:
 
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js (needed if docs use JS/React)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd docs-site
+          npm install
 
-      # Step 4: Build documentation
       - name: Build documentation
-        run: npm run build:docs   
+        run: |
+          cd docs-site
+          npm run build
 
-      # Step 5: Deploy documentation to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/dist   
-
+        run: |
+          cd docs-site
+          npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
