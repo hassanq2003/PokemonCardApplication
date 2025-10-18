@@ -1,4 +1,4 @@
-(globalThis as any).import = {
+(globalThis as Record<string, any>).import = {
   meta: {
     env: {
       VITE_SUPABASE_URL: "https://test.supabase.co",
@@ -6,6 +6,5 @@
     }
   }
 };
-
 
 import '@testing-library/jest-dom';

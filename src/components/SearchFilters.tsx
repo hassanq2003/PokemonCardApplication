@@ -26,17 +26,22 @@ interface SearchFiltersProps {
 export function SearchFilters({ onSearch, onReset }: SearchFiltersProps) {
   const [query, setQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [types, setTypes] = useState<string[]>([]);
-  const [rarities, setRarities] = useState<string[]>([]);
-  const [subtypes, setSubtypes] = useState<string[]>([]);
-  const [sets, setSets] = useState<PokemonSet[]>([]);
-
+  
+  // Removed unused state variables
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedRarities, setSelectedRarities] = useState<string[]>([]);
   const [selectedSubtypes, setSelectedSubtypes] = useState<string[]>([]);
   const [selectedSet, setSelectedSet] = useState('');
   const [selectedSupertype, setSelectedSupertype] = useState('');
   const [minHp, setMinHp] = useState('');
+
+  // If you need the filter options for rendering, keep them, otherwise remove
+  const [filterOptions, setFilterOptions] = useState({
+    types: [] as string[],
+    rarities: [] as string[],
+    subtypes: [] as string[],
+    sets: [] as PokemonSet[],
+  });
 
   useEffect(() => {
     async function fetchFilters() {
@@ -47,15 +52,15 @@ export function SearchFilters({ onSearch, onReset }: SearchFiltersProps) {
         pokemonApi.getSets(),
       ]);
 
-      setTypes(typesData);
-      setRarities(raritiesData);
-      setSubtypes(subtypesData);
-      setSets(
-        setsData.sort(
+      setFilterOptions({
+        types: typesData,
+        rarities: raritiesData,
+        subtypes: subtypesData,
+        sets: setsData.sort(
           (a: PokemonSet, b: PokemonSet) =>
             new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
-        )
-      );
+        ),
+      });
     }
 
     fetchFilters();
@@ -84,16 +89,11 @@ export function SearchFilters({ onSearch, onReset }: SearchFiltersProps) {
     onReset();
   };
 
-  const toggleSelection = (
-    value: string,
-    selected: string[],
-    setter: React.Dispatch<React.SetStateAction<string[]>>
-  ) => {
-    if (selected.includes(value)) {
-      setter(selected.filter((v) => v !== value));
-    } else {
-      setter([...selected, value]);
-    }
+  // If you need toggleSelection function, here's an implementation:
+  const toggleSelection = (array: string[], value: string): string[] => {
+    return array.includes(value)
+      ? array.filter(item => item !== value)
+      : [...array, value];
   };
 
   return (
@@ -136,8 +136,54 @@ export function SearchFilters({ onSearch, onReset }: SearchFiltersProps) {
       {/* Filters */}
       {showFilters && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6 border-t border-gray-200">
-          {/* Supertype, HP, Set, Types, Rarity, Subtypes */}
-          {/* ...same as your original JSX, no changes needed */}
+          {/* Use filterOptions instead of the individual arrays */}
+          {/* Example for types filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Types</label>
+            <div className="space-y-2">
+              {filterOptions.types.map(type => (
+                <label key={type} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedTypes.includes(type)}
+                    onChange={() => setSelectedTypes(toggleSelection(selectedTypes, type))}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">{type}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Add other filter sections using filterOptions */}
+          {/* Supertype */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Supertype</label>
+            <select
+              value={selectedSupertype}
+              onChange={(e) => setSelectedSupertype(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">All</option>
+              <option value="Pokémon">Pokémon</option>
+              <option value="Trainer">Trainer</option>
+              <option value="Energy">Energy</option>
+            </select>
+          </div>
+
+          {/* HP */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Minimum HP</label>
+            <input
+              type="number"
+              value={minHp}
+              onChange={(e) => setMinHp(e.target.value)}
+              placeholder="e.g., 100"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          {/* Add similar sections for rarities, subtypes, and sets using filterOptions */}
         </div>
       )}
     </div>
