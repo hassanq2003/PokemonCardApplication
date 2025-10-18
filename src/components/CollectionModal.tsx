@@ -26,13 +26,13 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
   const loadCollections = useCallback(async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
+    const { data, error: loadError } = await supabase
       .from('collections')
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
-    if (!error && data) {
+    if (!loadError && data) {
       setCollections(data as Collection[]);
     }
   }, [user]);
@@ -58,14 +58,14 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
         .maybeSingle();
 
       if (existing) {
-        const { error } = await supabase
+        const { error: updateError } = await supabase
           .from('collection_cards')
           .update({ quantity: (existing.quantity as number) + quantity })
           .eq('id', existing.id);
 
-        if (error) throw error;
+        if (updateError) throw updateError;
       } else {
-        const { error } = await supabase
+        const { error: insertError } = await supabase
           .from('collection_cards')
           .insert({
             collection_id: selectedCollection,
@@ -74,7 +74,7 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
             quantity,
           });
 
-        if (error) throw error;
+        if (insertError) throw insertError;
       }
 
       setMessage('Card added successfully!');
@@ -84,7 +84,7 @@ export function CollectionModal({ card, isOpen, onClose }: CollectionModalProps)
         setSelectedCollection('');
         setQuantity(1);
       }, 1500);
-    } catch (error) {
+    } catch (_error) {
       setMessage('Failed to add card');
     } finally {
       setLoading(false);
