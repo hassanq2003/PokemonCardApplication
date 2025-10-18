@@ -11,4 +11,3 @@ jobs:
       - name: Run backup script
         run: |
           echo "Running daily maintenance task..."
-          npm run backup
