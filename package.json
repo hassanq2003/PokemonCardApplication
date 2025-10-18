@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build:docs": "docusaurus build",        
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
