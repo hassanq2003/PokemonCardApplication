@@ -1,28 +1,21 @@
-name: Documentation Deployment
-
+name: Deploy Documentation
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
     paths:
       - "docs/**"
       - "docs-site/**"
-  workflow_dispatch:
 
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
-    
-    # Add environment configuration
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
     permissions:
       contents: read
       pages: write
       id-token: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
