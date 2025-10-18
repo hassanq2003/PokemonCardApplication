@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { PokemonCard } from '../src/components/PokemonCard';
 import { PokemonCard as PokemonCardType } from '../src/lib/supabase';
