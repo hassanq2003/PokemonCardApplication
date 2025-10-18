@@ -2,13 +2,29 @@ name: Scheduled Maintenance
 
 on:
   schedule:
-    - cron: '30 10 * * *' # Every day at 3:30 PM PKT
+    - cron: '55 10 * * *' # Every day at 3:30 PM PKT
 
 jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Run backup script
         run: |
-          mkdir -p backup
-          cp -r src backup/
+          echo "Creating backup zip of the project..."
+
+          # Define zip file name
+          ZIP_FILE="project_backup.zip"
+
+          # Delete zip if it exists
+          if [ -f "$ZIP_FILE" ]; then
+            echo "Existing backup found. Deleting..."
+            rm "$ZIP_FILE"
+          fi
+
+          # Create new zip of the entire project
+          zip -r "$ZIP_FILE" . -x "*.git*" "*.github*" "node_modules/*" "backup/*"
+
+          echo "Backup zip created successfully: $ZIP_FILE"
