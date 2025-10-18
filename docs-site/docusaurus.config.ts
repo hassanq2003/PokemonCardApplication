@@ -7,34 +7,28 @@ const config: Config = {
   tagline: 'Documentation for Pokemon Card Application',
   favicon: 'img/favicon.ico',
 
-  future: {
-    v4: true,
-  },
+  future: { v4: true },
 
-  url: 'https://yourusername.github.io', // Replace with your GitHub Pages URL
-  baseUrl: '/pokemon-card-application/', // Replace with your repo name
-  organizationName: 'yourusername', // Your GitHub username
-  projectName: 'pokemon-card-application', // Your repo name
+  url: 'https://yourusername.github.io',
+  baseUrl: '/pokemon-card-application/',
+  organizationName: 'yourusername',
+  projectName: 'pokemon-card-application',
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
 
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
-  },
+  i18n: { defaultLocale: 'en', locales: ['en'] },
 
   presets: [
     [
       'classic',
       {
         docs: {
-          path: '../docs', // Points to docs folder at same level as docs-site
+          path: '../docs',
           routeBasePath: '/', // Serve docs at root
           sidebarPath: require.resolve('./sidebars.ts'),
           editUrl: 'https://github.com/yourusername/pokemon-card-application/tree/main/docs',
         },
-        blog: false, // Disable blog
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -46,17 +40,29 @@ const config: Config = {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: { respectPrefersColorScheme: true },
     navbar: {
-      title: 'Pokemon Card App',
-      logo: { alt: 'Pokemon Card Logo', src: 'img/logo.svg' },
+      title: 'Pokemon', // Simple navbar title
+      logo: undefined,  // Remove logo
       items: [
-        { type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'Docs' },
-        { href: 'https://github.com/yourusername/pokemon-card-application', label: 'GitHub', position: 'right' },
+        {
+          type: 'docSidebar',
+          sidebarId: 'pokemonSidebar',
+          position: 'left',
+          label: 'Pokemon', // Clicking opens docs
+        },
+        {
+          href: 'https://github.com/yourusername/pokemon-card-application',
+          label: 'GitHub',
+          position: 'right',
+        },
       ],
     },
     footer: {
       style: 'dark',
       links: [
-        { title: 'Docs', items: [{ label: 'Tutorial', to: '/intro' }] },
+        {
+          title: 'Docs',
+          items: [{ label: 'Pokemon', to: '/' }],
+        },
         {
           title: 'Community',
           items: [
@@ -67,17 +73,12 @@ const config: Config = {
         },
         {
           title: 'More',
-          items: [
-            { label: 'GitHub', href: 'https://github.com/yourusername/pokemon-card-application' },
-          ],
+          items: [{ label: 'GitHub', href: 'https://github.com/yourusername/pokemon-card-application' }],
         },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Pokemon Card App.`,
     },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
+    prism: { theme: prismThemes.github, darkTheme: prismThemes.dracula },
   } satisfies Preset.ThemeConfig,
 };
 
