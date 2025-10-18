@@ -1,32 +1,39 @@
-name: Deployment Pipeline
+name: Documentation Deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - "docs/**"        # only run if docs change
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-docs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd docs-site
+          npm install
 
-
-      - name: Build app
-        run: npm run build
+      - name: Build documentation
+        run: |
+          cd docs-site
+          npm run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
-          publish_dir: ./dist
-
+        run: |
+          cd docs-site
+          npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
